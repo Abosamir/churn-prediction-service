@@ -113,11 +113,13 @@ churn-prediction-service/
 │   ├── 01_eda.ipynb            # Exploratory data analysis
 │   ├── 02_baseline.ipynb       # Dummy vs. logistic regression baseline
 │   ├── 03_feature_eng.ipynb    # Engineered features, single-split comparison
-│   └── 04_model_tuning.ipynb   # Cross-validated model selection
-├── src/                         # Source modules (in progress)
+│   ├── 04_model_tuning.ipynb   # Cross-validated model selection
+│   └── 05_evaluation.ipynb     # Threshold tuning, class weights, calibration
+├── src/churn/                   # Installable package (data, features, train, predict, api)
 ├── tests/                       # Test suite (in progress)
-├── requirements.txt
+├── models/                      # Trained model artifacts
 ├── pyproject.toml
+├── uv.lock
 └── README.md
 ```
 
@@ -131,36 +133,40 @@ churn-prediction-service/
 | Data | pandas 2.2.3, numpy 1.26.4, scipy 1.13.1 |
 | Visualization | matplotlib 3.9.2, seaborn 0.13.2, plotly 5.24.1 |
 | Notebooks | Jupyter, JupyterLab |
+| API (planned) | FastAPI, Pydantic, Uvicorn |
 
-**Python:** 3.11+
+**Python:** 3.11 (managed by `uv`, see `.python-version`)
 
 ---
 
 ## Setup
+
+This project uses [uv](https://docs.astral.sh/uv/) for dependency and virtualenv management.
 
 ```bash
 # Clone the repository
 git clone <repo-url>
 cd churn-prediction-service
 
-# Create and activate a virtual environment
-python -m venv .venv
-.venv\Scripts\activate        # Windows
-# source .venv/bin/activate   # macOS/Linux
-
-# Install dependencies
-pip install -r requirements.txt
+# Install dependencies (creates .venv automatically, uses the locked versions in uv.lock)
+uv sync
 ```
+
+`uv sync` installs the runtime dependencies plus the `dev` group (Jupyter/JupyterLab) and installs
+this repo's `churn` package (under `src/churn`) in editable mode, so `import churn` works in
+notebooks, scripts, and tests without any extra `pip install -e .` step.
 
 ---
 
 ## Usage
 
-Open the notebooks in order to follow the pipeline from EDA through model selection:
+Run any command inside the managed environment with `uv run`, no manual `activate` needed:
 
 ```bash
-jupyter lab notebooks/01_eda.ipynb
+uv run jupyter lab notebooks/01_eda.ipynb
 ```
+
+Open the notebooks in order to follow the pipeline from EDA through model selection.
 
 ---
 

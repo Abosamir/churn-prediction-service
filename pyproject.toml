@@ -1,4 +1,37 @@
-[churn prediction service]
+[project]
 name = "churn-prediction-service"
 version = "0.1.0"
+description = "ML pipeline and service to predict telecommunications customer churn"
+readme = "README.md"
 requires-python = ">=3.11,<3.12"
+dependencies = [
+    "numpy==1.26.4",
+    "pandas==2.2.3",
+    "scipy==1.13.1",
+    "matplotlib==3.9.2",
+    "seaborn==0.13.2",
+    "plotly==5.24.1",
+    "scikit-learn==1.5.2",
+    "xgboost==2.1.1",
+    "lightgbm==4.5.0",
+    "joblib==1.4.2",
+    "openpyxl==3.1.5",
+    "fastapi>=0.141.1",
+    "pydantic>=2.13.5",
+    "uvicorn[standard]>=0.52.4",
+]
+
+[dependency-groups]
+dev = [
+    "jupyter==1.1.1",
+    "jupyterlab==4.2.5",
+    "ipykernel==6.29.5",
+    "ipywidgets==8.1.5",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/churn"]
